@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>VIDEO</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <link href="https://vjs.zencdn.net/7.5.5/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark bg-dark">
+
+    <span class="navbar-text">
+      Code Alliance
+    </span><button type="button" id="username_button" class="btn btn-danger">Video Page</button>
+
+  </nav>
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-8 col-lg-9 mx-auto">
+            <div class="card card-signin my-5">
+              <div class="card-body">
+                <div class="wrapper">
+                  <div class="embed-responsive embed-responsive-16by9">
+                    <iframe width="427" height="240" src="" id="videoarea" frameborder="0"
+                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-center" id="main-video-title">
+        <p id="video-title"></p>
+        <p id="date"></p>
+      </p>
+    </div>
+    <!--Playlist cards-->
+    <div class="col-sm-4">
+      <br><br>
+      <div class="container-fluid">
+
+        <h3 class="display-6">Playlist</h3>
+        <hr class="my-6">
+        <div class="scrollbar scrollbar-danger">
+          <div class="force-overflow">
+
+            <div id="vidPlaylist">
+
+
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+      window.onload = function () {
+        if (localStorage.getItem("token")) {
+          // document.getElementById("username").innerHTML=localStorage.getItem("username");
+          // document.getElementById("username_button").innerHTML = "username";
+          $.ajax({
+
+            type: "GET",
+            crossDomain: true,
+            dataType: 'json',
+            url: "https://code-aportal.herokuapp.com/videos",
+            headers: {
+              "Authorization": "token " + localStorage.getItem('token')
+            }
+          }).done(function (data) {
+
+            //------------video player------------------
+
+            var videosource;
+            var parameter = 4;
+            if (parameter = 4) {
+              videosource = data[4].video_url;
+            } else {
+              videosource = data[parameter].video_url;
+            }
+            $("iframe").attr("src", videosource);
+
+
+            //----------------cards----------------------
+
+            obj = JSON.parse(JSON.stringify(data));
+            console.log(obj);
+
+            var playlist = "";
+            for (var i = 0; i < obj.length; i++) {
+
+              playlist +=
+                `<div class="card bg-light text-dark ">
+                <div class="card-body " id="height-control-card" ><li id="card-mackup" class="list-group-item" class="streached-link" url = "` +
+                obj[
+                  i]
+                .video_url + `" >
+                <div class="row">
+                <div class="col-sm-4">
+                <img src="logo.jpeg" alt="Avatar" class="playlist-images">
+                  </div>
+                  <div class="col-sm-8">
+                    <p >` + obj[i].title + `</p>
+                    <p class="card-text" id="date-text"><small class="text-muted">` + obj[i].date + `</small></p>
+                  </div>
+                </div>
+                
+                
+                </li>
+
+               
+              </div>
+            </div><br>`;
+            }
+
+            $("#vidPlaylist").append(playlist);
+
+            //function for clicking action
+
+
+            $(function () {
+              $("#height-control-card li").on("click", function () {
+                console.log("Clicked");
+                console.log($(this).attr("url"));
+                $("#videoarea").attr({
+                  "src": $(this).attr("url")
+                });
+              })
+            })
+
+
+
+          })
+        } else {
+          window.location = "login.htm";
+        }
+
+      }
+    </script>
+
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://vjs.zencdn.net/7.5.5/video.js"></script>
+
+
+
+
+
+
+</body>
+
+</html>

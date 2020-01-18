@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>LOGIN</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+
+    <span class="navbar-text">
+      Code Alliance
+    </span><button type="button" class="btn btn-danger">Login Page</button>
+
+  </nav>
+
+  <br><br><br><br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign In</h5>
+            <form class="form-signin" id="myForm" method="POST">
+              <div class="form-label-group">
+                <input type="text" onChange={this.Email} id="inputEmail" class="form-control" placeholder="Login"
+                  name="inputEmail" required autofocus>
+                <label for="inputEmail">Login Id</label>
+              </div>
+
+              <div class="form-label-group">
+                <input type="password" onChange={this.Password} id="inputPassword" class="form-control"
+                  placeholder="Password" name="inputPassword" required>
+                <label for="inputPassword">Password</label>
+              </div>
+
+
+              <hr class="my-4">
+              <button class="btn btn-lg btn-dark btn-block text-uppercase" type="submit">Sign in</button>
+
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+  <script type="text/javascript">
+    $("#myForm").submit(function(event){
+      event.preventDefault();
+      $.ajax({
+          url: 'https://code-aportal.herokuapp.com/api-auth/login/',
+          type: "POST",
+          crossDomain : true,
+          data: JSON.stringify({
+              username: $("#inputEmail").val(),
+              password: $("#inputPassword").val()
+            }),
+          contentType: "application/json",
+          success: function (data) {
+            
+              var tokenvalue=data.key;
+              console.log(data);
+
+              var username = data.username;
+              localStorage.setItem("token",tokenvalue);
+              localStorage.setItem("username",username);
+              window.location="videoplayer.htm";
+          },
+          error: function () {
+          	alert("Wrong Login Id/Password");
+          localStorage.clear();
+          window.location="login.html";
+      }
+  });
+    });
+  </script>
+</body>
+
+</html>
