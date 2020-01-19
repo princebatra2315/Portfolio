@@ -170,6 +170,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://vjs.zencdn.net/7.5.5/video.js"></script>
+    <script src="node_modules/devtools-detect/index.js"></script>
+    <script type="module">
+      if(window.devtools.isOpen)
+      {
+        localStorage.clear();
+        window.location="login.html";
+      }
+      window.addEventListener('devtoolschange', event => {
+        if(event.detail.isOpen)
+        {
+          localStorage.clear();
+          window.location="login.html";
+        }
+      });
+    </script>
 
 
 
