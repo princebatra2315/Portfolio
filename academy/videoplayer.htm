@@ -21,7 +21,7 @@
 
     <span class="navbar-text">
       Code Alliance
-    </span><button type="button" id="username_button" class="btn btn-danger">Video Page</button>
+    </span><button type="button" id="logout_button" class="btn btn-danger">Logout</button>
 
   </nav>
 
@@ -37,6 +37,7 @@
                     <iframe width="427" height="240" src="" id="videoarea" frameborder="0"
                       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                       allowfullscreen></iframe>
+                      <div style="width: 80px; height: 80px; position: absolute; opacity: 0; right: 0px; top: 0px; background-color: #FF0000;"> </div>
                   </div>
                 </div>
               </div>
@@ -94,9 +95,9 @@
             //------------video player------------------
 
             var videosource;
-            var parameter = 4;
-            if (parameter = 4) {
-              videosource = data[4].video_url;
+            var parameter = 0;
+            if (parameter = 0) {
+              videosource = data[0].video_url;
             } else {
               videosource = data[parameter].video_url;
             }
@@ -106,18 +107,17 @@
             //----------------cards----------------------
 
             obj = JSON.parse(JSON.stringify(data));
-            console.log(obj);
 
             var playlist = "";
             for (var i = 0; i < obj.length; i++) {
 
               playlist +=
-                `<div class="card bg-light text-dark ">
-                <div class="card-body " id="height-control-card" ><li id="card-mackup" class="list-group-item" class="streached-link" url = "` +
+                `<div class="card bg-light text-dark " >
+                <div class="card-body " id="height-control-card" onmouseover="this.style.background='gray';" onmouseout="this.style.background='white';"><li id="card-mackup" class="list-group-item" class="streached-link" url = "` +
                 obj[
                   i]
                 .video_url + `" >
-                <div class="row">
+                <div class="row" >
                 <div class="col-sm-4">
                 <img src="logo.jpeg" alt="Avatar" class="playlist-images">
                   </div>
@@ -142,8 +142,6 @@
 
             $(function () {
               $("#height-control-card li").on("click", function () {
-                console.log("Clicked");
-                console.log($(this).attr("url"));
                 $("#videoarea").attr({
                   "src": $(this).attr("url")
                 });
@@ -158,6 +156,10 @@
         }
 
       }
+      $("#logout_button").on("click",function(){
+        localStorage.removeItem("token");
+        window.location="login.html";
+      })
     </script>
 
 

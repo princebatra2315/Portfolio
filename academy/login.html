@@ -15,7 +15,7 @@
 
     <span class="navbar-text">
       Code Alliance
-    </span><button type="button" class="btn btn-danger">Login Page</button>
+    </span><button type="button" class="btn btn-info" onclick="window.location.href = 'https://codealliance.in/';">Home</button>
 
   </nav>
 
@@ -65,6 +65,7 @@
   </script>
 
   <script type="text/javascript">
+    localStorage.clear();
     $("#myForm").submit(function(event){
       event.preventDefault();
       $.ajax({
@@ -79,8 +80,6 @@
           success: function (data) {
             
               var tokenvalue=data.key;
-              console.log(data);
-
               var username = data.username;
               localStorage.setItem("token",tokenvalue);
               localStorage.setItem("username",username);
